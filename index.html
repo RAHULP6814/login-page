@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Resource Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            background: linear-gradient(to right, #0062cc, #007bff);
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .left-section {
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .left-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); */
+        }
+
+        .left-section h1 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin: 1.5rem 0 0.5rem;
+            font-weight: 600;
+        }
+
+        .left-section p {
+            font-size: 1.5rem;
+            color: #34495e;
+            font-weight: 500;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-container h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.8rem 0.5rem;
+    padding-right: 2.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--light-color);
+}
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .input-group .toggle-password {
+    position: absolute;
+    right: 1rem;
+    /* Change from top: 70% to a fixed distance from the label */
+    top: 3.3rem; /* This positions it relative to the top of the input-group */
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+    z-index: 1; /* Ensure the icon stays above other elements */
+}
+
+        .input-group .toggle-password:hover {
+            color: var(--primary-color);
+        }
+
+        .password-strength {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    /* Add these properties to ensure it doesn't affect the icon positioning */
+    position: relative;
+    display: block;
+}
+        .weak { 
+            color: var(--danger-color);
+        }
+
+        .medium { 
+            color: var(--warning-color);
+        }
+
+        .strong { 
+            color: var(--success-color);
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .error-message.active {
+            opacity: 1;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(to right, #0062cc, #007bff);
+            color: white;
+        }
+
+        button[type="button"] {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                padding: 1rem;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .left-section {
+                margin: 0;
+                padding: 1rem;
+            }
+            
+            .form-container {
+                margin: 0 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .left-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .left-section p {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .left-section h1 {
+                font-size: 1.5rem;
+            }
+
+            .left-section p {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        button.loading .spinner {
+            opacity: 1;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Human Resource Management System</h1>
+    </div>
+
+    <div class="main-container">
+        <div class="left-section">
+            <img src="https://aresourcepool.com/wp-content/uploads/2021/09/hirebanner-2.png" alt="Welcome Image">
+            <h1>Welcome to</h1>
+            <p>Attendance Management System</p>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="form-container">
+            <h2>Login</h2>
+            <form onsubmit="return handleLogin(event)">
+                <div class="input-group">
+                    <label for="loginId">Username</label>
+                    <input 
+                        type="text" 
+                        id="loginId" 
+                        placeholder="Enter username" 
+                        required
+                        maxlength="50"
+                        aria-label="Username"
+                        aria-required="true"
+                        aria-describedby="loginUsernameError"
+                    >
+                    <div class="error-message" id="loginUsernameError" role="alert"></div>
+                </div>
+                <div class="input-group">
+                    <label for="loginPassword">Password</label>
+                    <input 
+                        type="password" 
+                        id="loginPassword" 
+                        placeholder="Enter Password" 
+                        required
+                        maxlength="50"
+                        aria-label="Password"
+                        aria-required="true"
+                        aria-describedby="loginPasswordError"
+                    >
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('loginPassword', this)" aria-label="Toggle password visibility"></i>
+                    <div class="error-message" id="loginPasswordError" role="alert"></div>
+                </div>
+                <div class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <div class="links">
+                    <a href="#" onclick="toggleForm('signupForm')">Sign Up</a>
+                    <a href="#" onclick="toggleForm('forgotPasswordForm')">Forgot Password?</a>
+                </div>
+                <button type="submit">
+                    Login
+                    <div class="spinner"></div>
+                </button>
+                <!-- <button type="button" onclick="clearForm('loginForm')">Clear Data</button> -->
+            </form>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div id="signupForm" class="form-container hidden">
+            <h2>Sign Up</h2>
+            <form onsubmit="return handleSignup(event)">
+                <div class="input-group">
+                    <label for="signupUsername">Username</label>
+                    <input 
+                        type="text" 
+                        id="signupUsername" 
+                        placeholder="Enter username" 
+                        required
+                        maxlength="50"
+                        aria-label="Username"
+                        aria-required="true"
+                        aria-describedby="signupUsernameError"
+                    >
+                    <div class="error-message" id="signupUsernameError" role="alert"></div>
+                </div>
+                <div class="input-group">
+                    <label for="signupEmail">Email</label>
+                    <input 
+                        type="email" 
+                        id="signupEmail" 
+                        placeholder="Enter email" 
+                        required
+                        maxlength="100"
+                        aria-label="Email"
+                        aria-required="true"
+                        aria-describedby="signupEmailError"
+                    >
+                    <div class="error-message" id="signupEmailError" role="alert"></div>
+                </div>
+                <div class="input-group">
+                    <label for="signupPassword">Password</label>
+                    <input 
+                        type="password" 
+                        id="signupPassword" 
+                        placeholder="Enter password" 
+                        required
+                        maxlength="50"
+                        aria-label="Password"
+                        aria-required="true"
+                        aria-describedby="signupPasswordError passwordStrength"
+                    >
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('signupPassword', this)" aria-label="Toggle password visibility"></i>
+                    <div class="password-strength" id="passwordStrength" role="status"></div>
+                    <div class="error-message" id="signupPasswordError" role="alert"></div>
+                </div>
+                <div class="links">
+                    <a href="#" onclick="toggleForm('loginForm')">Back to Login</a>
+                </div>
+                <button type="submit">
+                    Sign Up
+                    <div class="spinner"></div>
+                </button>
+                <!-- <button type="button" onclick="clearForm('signupForm')">Clear Data</button> -->
+            </form>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div id="forgotPasswordForm" class="form-container hidden">
+            <h2>Forgot Password</h2>
+            <form onsubmit="return handlePasswordReset(event)">
+                <div class="input-group">
+                    <label for="forgotUsername">Username</label>
+                    <input 
+                        type="text" 
+                        id="forgotUsername" 
+                        placeholder="Enter username" 
+                        required
+                        maxlength="50"
+                        aria-label="Username"
+                        aria-required="true"
+                        aria-describedby="forgotUsernameError"
+                    >
+                    <div class="error-message" id="forgotUsernameError" role="alert"></div>
+                </div>
+                <div class="input-group">
+                    <label for="newPassword">New Password</label>
+                    <input 
+                        type="password" 
+                        id="newPassword" 
+                        placeholder="Enter new password" 
+                        required
+                        maxlength="50"
+                        aria-label="New Password"
+                        aria-required="true"
+                        aria-describedby="newPasswordError newPasswordStrength"
+                    >
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('newPassword', this)" aria-label="Toggle password visibility"></i>
+                    <div class="password-strength" id="newPasswordStrength" role="status"></div>
+                    <div class="error-message" id="newPasswordError" role="alert"></div>
+                </div>
+                <div class="links">
+                    <a href="#" onclick="toggleForm('loginForm')">Back to Login</a>
+                </div>
+                <button type="submit">
+                    Reset Password
+                    <div class="spinner"></div>
+                </button>
+                <!-- <button type="button" onclick="clearForm('forgotPasswordForm')">Clear Data</button> -->
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Utility functions
+        function sanitizeInput(input) {
+            return input.replace(/[<>]/g, '').trim();
+        }
+
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function validateUsername(username) {
+            return username.length >= 3 && !username.includes(' ');
+        }
+
+        function showLoading(button) {
+            button.disabled = true;
+            button.classList.add('loading');
+            button.dataset.originalText = button.textContent;
+            button.textContent = '';
+        }
+
+        function hideLoading(button) {
+            button.disabled = false;
+            button.classList.remove('loading');
+            button.textContent = button.dataset.originalText;
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.add('active');
+            setTimeout(() => {
+                errorElement.classList.remove('active');
+            }, 5000);
+        }
+
+        // Session management
+        function setSession(userData) {
+            const session = {
+                user: userData,
+                timestamp: new Date().getTime(),
+                expiresIn: 3600000 // 1 hour
+            };
+            sessionStorage.setItem('userSession', JSON.stringify(session));
+        }
+
+        function checkSession() {
+            const session = JSON.parse(sessionStorage.getItem('userSession'));
+            if (session) {
+                const now = new Date().getTime();
+                if (now - session.timestamp < session.expiresIn) {
+                    return true;
+                }
+                sessionStorage.removeItem('userSession');
+            }
+            return false;
+        }
+
+        // Remember me functionality
+        function handleRememberMe(username) {
+            const rememberMe = document.getElementById('rememberMe').checked;
+            if (rememberMe) {
+                localStorage.setItem('rememberedUser', username);
+            } else {
+                localStorage.removeItem('rememberedUser');
+            }
+        }
+
+        // Load remembered username
+        window.addEventListener('load', () => {
+            const rememberedUser = localStorage.getItem('rememberedUser');
+            if (rememberedUser) {
+                document.getElementById('loginId').value = rememberedUser;
+                document.getElementById('rememberMe').checked = true;
+            }
+            
+            if (checkSession()) {
+                window.location.href = '2.html';
+            }
+        });
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            const mediumRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+            
+            if (strongRegex.test(password)) return { strength: 'strong', message: 'Strong Password' };
+            if (mediumRegex.test(password)) return { strength: 'medium', message: 'Medium Password' };
+            return { strength: 'weak', message: 'Weak Password' };
+        }
+
+        // Form handlers
+        function handleSignup(event) {
+            event.preventDefault();
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            showLoading(submitButton);
+            
+            try {
+                const username = sanitizeInput(document.getElementById('signupUsername').value);
+                const email = sanitizeInput(document.getElementById('signupEmail').value);
+                const password = document.getElementById('signupPassword').value;
+                
+                if (!validateUsername(username)) {
+                    showError('signupUsernameError', 'Username must be at least 3 characters and cannot contain spaces');
+                    return false;
+                }
+                
+                if (!validateEmail(email)) {
+                    showError('signupEmailError', 'Please enter a valid email address');
+                    return false;
+                }
+                
+                const passwordCheck = checkPasswordStrength(password);
+                if (passwordCheck.strength === 'weak') {
+                    showError('signupPasswordError', 'Password must be at least 8 characters with uppercase, lowercase, number and special character');
+                    return false;
+                }
+                
+                // In a real application, this would be an API call
+                setTimeout(() => {
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    if (users.some(user => user.username === username)) {
+                        showError('signupUsernameError', 'Username already exists');
+                        return false;
+                    }
+                    
+                    // Hash password in real application
+                    users.push({ username, email, password });
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    alert('Registration successful! Please login.');
+                    toggleForm('loginForm');
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An error occurred during signup. Please try again.');
+            } finally {
+                hideLoading(submitButton);
+            }
+            return false;
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            showLoading(submitButton);
+            
+            try {
+                const username = sanitizeInput(document.getElementById('loginId').value);
+                const password = document.getElementById('loginPassword').value;
+                
+                // In a real application, this would be an API call
+                setTimeout(() => {
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const user = users.find(u => u.username === username && u.password === password);
+                    
+                    if (user) {
+                        handleRememberMe(username);
+                        setSession(user);
+                        window.location.href = '2.html';
+                    } else {
+                        showError('loginPasswordError', 'Invalid username or password');
+                    }
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('An error occurred during login. Please try again.');
+            } finally {
+                hideLoading(submitButton);
+            }
+            return false;
+        }
+
+        function handlePasswordReset(event) {
+            event.preventDefault();
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            showLoading(submitButton);
+            
+            try {
+                const username = sanitizeInput(document.getElementById('forgotUsername').value);
+                const newPassword = document.getElementById('newPassword').value;
+                
+                if (!validateUsername(username)) {
+                    showError('forgotUsernameError', 'Invalid username format');
+                    return false;
+                }
+                
+                const passwordCheck = checkPasswordStrength(newPassword);
+                if (passwordCheck.strength === 'weak') {
+                    showError('newPasswordError', 'Password must be at least 8 characters with uppercase, lowercase, number and special character');
+                    return false;
+                }
+                
+                // In a real application, this would be an API call
+                setTimeout(() => {
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const userIndex = users.findIndex(u => u.username === username);
+                    
+                    if (userIndex === -1) {
+                        showError('forgotUsernameError', 'Username not found');
+                        return false;
+                    }
+                    
+                    users[userIndex].password = newPassword;
+                    localStorage.setItem('users', JSON.stringify(users));
+                    
+                    alert('Password reset successful! Please login with your new password.');
+                    toggleForm('loginForm');
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Password reset error:', error);
+                alert('An error occurred during password reset. Please try again.');
+            } finally {
+                hideLoading(submitButton);
+            }
+            return false;
+        }
+
+        // UI handlers
+        function toggleForm(formId) {
+            const forms = document.querySelectorAll('.form-container');
+            forms.forEach(form => form.classList.add('hidden'));
+            document.getElementById(formId).classList.remove('hidden');
+            clearAllErrors();
+        }
+
+        function togglePasswordVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function clearForm(formId) {
+            document.getElementById(formId).reset();
+            clearAllErrors();
+        }
+
+        function clearAllErrors() {
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.textContent = '';
+                error.classList.remove('active');
+            });
+            document.querySelectorAll('.password-strength').forEach(strength => {
+                strength.textContent = '';
+                strength.className = 'password-strength';
+            });
+        }
+
+        // Password strength indicators
+        document.getElementById('signupPassword').addEventListener('input', function(e) {
+            const result = checkPasswordStrength(e.target.value);
+            const strengthDiv = document.getElementById('passwordStrength');
+            strengthDiv.textContent = result.message;
+            strengthDiv.className = 'password-strength ' + result.strength;
+        });
+
+        
+        document.getElementById('newPassword').addEventListener('input', function(e) {
+            const result = checkPasswordStrength(e.target.value);
+            const strengthDiv = document.getElementById('newPasswordStrength');
+            strengthDiv.textContent = result.message;
+            strengthDiv.className = 'password-strength ' + result.strength;
+        });
+    </script>
+</body>
+</html>
